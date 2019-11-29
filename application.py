@@ -7,7 +7,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required, lookup
 
 # Configure application
 app = Flask(__name__)
@@ -59,7 +59,7 @@ def login():
                           username=request.form.get("username"))
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0]["password"], request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
@@ -108,12 +108,12 @@ def register():
 
 
 #not sure if you need methods for this
-@app.route("/feed", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def feed():
     """display all posts"""
     if request.method == "GET":
-        db.execute("TODO")
+
         return render_template("feed.html")
     if request.method == "POST":
         return redirect("/")
@@ -132,10 +132,10 @@ def myposts():
 def guts():
     if request.method == "GET":
         return render_template("guts.html")
-    if request.method == "POST":
+    #if request.method == "POST":
 
 
-@app.route("/studyguides", methods=["GET", "POST"])
+@app.route("/study-guides", methods=["GET", "POST"])
 @login_required
 def studyguides():
     """make a studyguide"""
